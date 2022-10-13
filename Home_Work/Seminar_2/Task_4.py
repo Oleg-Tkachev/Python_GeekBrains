@@ -7,6 +7,7 @@
 
 n = int(input("введите N: "))
 
+
 list = list(range(-n, n+1))
 print(f'Список до сдвига: {list}')
 list = list[-2:] + list[:-2]
