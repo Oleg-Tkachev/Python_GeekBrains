@@ -8,3 +8,5 @@ for x in range(0, 2):
         for z in range(0, 2):
             sum = (int(not (x and y) or z))
             print(f'{x} | {y} | {z} |    {sum} ')
+
+
