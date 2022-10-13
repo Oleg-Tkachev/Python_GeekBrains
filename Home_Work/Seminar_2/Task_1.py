@@ -6,6 +6,7 @@
 
 n = int(input('Введите число N: '))
 
+
 def Factorial(number):
     if number == 0:
         return 1
@@ -14,17 +15,16 @@ def Factorial(number):
         factorial *= i
     return factorial
 
-print(Factorial(n))
+
+print(f'факториал {n}! = {Factorial(n)}')
 
 
-
-# Второй способ через рекурсию
+########### Второй способ через рекурсию  ###################
 
 def Factorial(number):
     if number == 0:
         return 1
     return number * Factorial(number - 1)
 
+
 print(Factorial(n))
-
-
