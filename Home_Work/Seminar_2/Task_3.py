@@ -17,5 +17,7 @@ def Find_symbol(string_1, string_2):
 
 print(Find_symbol(string_1, string_2))
 
+
+###############################
 # for symbol in set(string_1):
 #     print(symbol, "встречается", string_2.count(symbol), "раз")
