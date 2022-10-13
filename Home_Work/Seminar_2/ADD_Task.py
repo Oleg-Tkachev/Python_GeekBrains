@@ -29,6 +29,7 @@ for i in numbers_no_sort:
     else:
         numbers_positive.append(i)
 
+
 print('Несортированный масиив:')
 print(numbers_no_sort)
 print('Сортированный масиив:')
