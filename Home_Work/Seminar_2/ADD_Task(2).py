@@ -13,3 +13,13 @@ print(numbers)
 average = sum(numbers) / len(numbers)
 print('Среднее арифметическое', average)
 
+
+def nearest_element(numbers, average):
+    found = numbers[0]
+    for item in numbers:
+        if abs(item - average) < abs(found - average):
+            found = item
+    return found
+
+
+print(f'Ближайшее число к {average} в списке {numbers} является {nearest_element(numbers, average)}')
