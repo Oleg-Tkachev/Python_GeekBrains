@@ -23,6 +23,7 @@ print(numbers_no_sort)
 numbers_positive = []
 numbers_negative = []
 
+
 for i in numbers_no_sort:
     if i < 0:
         numbers_negative.append(i)
