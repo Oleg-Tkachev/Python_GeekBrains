@@ -11,7 +11,7 @@ numbers.sort()
 print(numbers)
 
 average = sum(numbers) / len(numbers)
-print('Среднее арифметическое', average)
+print('Среднее арифметическое:', average)
 
 
 def nearest_element(numbers, average):
@@ -22,4 +22,4 @@ def nearest_element(numbers, average):
     return found
 
 
-print(f'Ближайшее число к {average} в списке {numbers} является {nearest_element(numbers, average)}')
+print(f'Ближайшее число к {average} в списке {numbers} является: {nearest_element(numbers, average)}')
