@@ -5,7 +5,7 @@
 
 import math
 
-n = int(input("До какой цифры округлить число 'П' ?: "))
 
+n = int(input("До какой цифры округлить число 'П' ?: "))
 print(round(math.pi, n))
 
