@@ -1,5 +1,4 @@
 
-
 n, m, s = input().split(' ')
 
 n_list = []
