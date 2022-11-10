@@ -6,3 +6,18 @@
 # [0, 5, 6, 2, 7, 7, 8, 1, 1, 9] - 277 -> да
 # [4, 4, 3, 6, 7, 0, 8, 5, 1, 2] - 812 -> нет
 
+import random
+
+size = 15
+numbers = [random.randint(1, 10) for i in range(size)]
+n = list(map(int, input("Введите трёхзначное натуральное число: ")))
+
+print(n)
+print(numbers)
+
+for i in range(size):
+    if numbers[i:i+3] == n:
+        print(f'в массиве {numbers} присутствует последовательность {n}')
+        break
+else:
+    print(f'в массиве {numbers} отсутствует последовательность {n}')
