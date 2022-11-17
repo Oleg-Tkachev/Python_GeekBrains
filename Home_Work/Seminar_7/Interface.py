@@ -1,6 +1,7 @@
 
+information = []
+
 def creat_information():
-    information = []
 
     first_name = input('Введите имя: ')
     information.append(first_name)
@@ -23,6 +24,6 @@ def creat_information():
     information.append(phone_number)
     remark = input('Добавьте описание: ')
     information.append(remark)
-    return
+    return information
 
 
