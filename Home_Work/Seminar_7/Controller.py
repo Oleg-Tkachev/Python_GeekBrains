@@ -16,6 +16,8 @@ def select_menu():
         Phonebook.export_scv()
     else:
         if select != 1 or select != 2 or select != 3:
-            print('Некорректный ввод')
+            return
+        print('Некорректный ввод')
+
 
 
