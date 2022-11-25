@@ -3,33 +3,36 @@
 # Каждой группе отведена своя строка.
 # Определите группу с наилучшим средним баллом.
 
-import operator
-from functools import reduce
+
 from random import randint
-from statistics import mean
-import numpy as np
-from urllib3.connectionpool import xrange
+
 
 count_group = int(input('Введите количество групп: '))
-students_grades = [0] * count_group
+count_students_group = [0] * count_group
 grade_average = []
 
-for i in range(len(students_grades)):
-    students_grades[i] = list(
-        randint(1, 100) for s in range(int(input(f'Введите количество студентов в {i + 1} группе :'))))
 
-print(students_grades)
 
-average_students = np.mean(students_grades, axis=1)
+for i in range(len(count_students_group)):
+    count_students_group[i] = list(
+        randint(2, 5) for s in range(int(input(f'Введите количество студентов в {i + 1} группе :'))))
+print(count_students_group)
+print()
 
-print(np.round(average_students))
 
-lst = students_grades
-a = lst.index(max(lst)) + 1
+for row in count_students_group:
+    mean_grades = 0
+    for i in row:
+        mean_grades += i
+        mean_grades = mean_grades / len(row)
+        mean = round(mean_grades, 2)
+    grade_average.append(mean)
 
-b = max(lst)
-c = lst.index(b)
-print(b)
-print(c + 1)
+p = max(grade_average)
+s = grade_average.index(p)
+print(f'Средний балл по группам: {grade_average}')
+print(f'Максимум баллов [{p}] набрала группа [{s + 1}]')
+
+
 
 
