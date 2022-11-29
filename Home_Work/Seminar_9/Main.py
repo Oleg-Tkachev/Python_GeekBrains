@@ -7,6 +7,10 @@ import requests
 from telebot import types
 import telebot
 import time
+from random import randint
+from operator import truediv, mul, add, sub
+import Game
+
 
 bot = telebot.TeleBot("5932647150:AAGU1GllNxW4lPWnct9ynbxCEg3FWlckc7c", parse_mode=None)
 
@@ -20,6 +24,9 @@ itembtn6 = types.KeyboardButton('Калькулятор')
 itembtn7 = types.KeyboardButton('file')
 markup.add(itembtn1, itembtn2, itembtn3, itembtn4, itembtn5, itembtn6, itembtn7)
 
+digit = None
+game = False
+
 
 @bot.message_handler(commands=['start', 'help', 'hello'])
 def send_welcome(message):
@@ -27,7 +34,7 @@ def send_welcome(message):
 
 
 @bot.message_handler(content_types=["text"])
-def hello_user(message, content_types=None, receive=None):
+def Logs_programm(message, content_types=None, receive=None):
     # Логирование в консоль + файл Logs
     file = 'Logs.txt'
     with open(file, 'a', encoding='utf-8') as data:
@@ -36,23 +43,55 @@ def hello_user(message, content_types=None, receive=None):
         print(
             f'ID_User: {message.from_user.id} Name: {message.from_user.first_name} {message.from_user.last_name}: {message.text} ')
 
+        def game_unknown_number(mes):
+            global digit
+            count = 5
+            global game
+            bot.send_message(message.chat.id, '"УГАДАЙ ЦИФРУ"!\n Количество попыток: [5]')
+            bot.send_message(message.chat.id, 'Готово! Загадано число от 1 до 10 !')
+            while count > 0:
+                bot.send_message(message.chat.id, f'Введите число {digit}')
+                bot.message_handler(content_types=["text"])
+                if int(message.text) == digit:
+                    bot.send_message(message.chat.id, 'Ура! Ты угадал число! Это была цифра:', digit)
+                    break
+                else:
+                    count -= 1
+                    bot.send_message(message.chat.id, 'Неверно, осталось попыток:', count)
 
-@bot.message_handler(commands=['text'])
-def send_welcome(message):
+        def Calc_bot(message):
+            operators = {
+                '+': addition,
+                '-': subtraction,
+                '*': multiplication,
+                '/': division
+            }
+            if message.isdigit():
+                return float(message)
+            for i in operators.keys():
+                left, operator, right = s.partition(i)
+                if operator in operators:
+                    return operators[operator](Calc_bot(left), Calc_bot(right))
+            calc = input(f'Введите математическое выражение: \n')
+            print(f'Результат: {str(Calc_bot(calc))}')
+
     if message.text == 'Info':
         bot.send_message(message.chat.id, 'Приветсвтую тебя!!\n'
-                                          'Bot created for educational purposes. Avtor Oleg Tkachev  11/2022.')
+                                          'Bot created for educational purposes. Author Oleg Tkachev 🥸 11/2022.')
         bot.send_message(message.chat.id, 'Мои возможность на сегодя:\n'
-                                          '[Info] ==> Информация возможностей\n'
+                                          '[Info] ==> Инфо меню\n'
                                           '[Погода] ==> Погода в городе\n'
                                           '[Cats] ==> Веселые котики\n'
                                           '[Geme] ==> Игра угадай число\n'
                                           '[Юмор] ==> Веселые анекдоты\n'
-                                          '[Калькулятор] ==> No comments)\n')
+                                          '[Калькулятор] ==> No comments  😏)\n')
 
     elif message.text == 'Game':
-        bot.send_message(message.chat.id, 'Приветсвтую тебя!!\n'
-                                          'Давай-ка поиграем, в угадайку чисел!')
+        digit = 4
+        game = True
+        r = bot.send_message(message.chat.id, 'Приветсвтую тебя!!\n'
+                                              'Давай-ка поиграем, в угадайку чисел !')
+        bot.register_next_step_handler(r, game_unknown_number(message))
 
     elif message.text == 'Погода':
         s = requests.get('https://wttr.in/?0T')
@@ -63,15 +102,13 @@ def send_welcome(message):
         bot.send_photo(message.chat.id, m)
 
     elif message.text == 'Калькулятор':
-        bot.send_message(message.chat.id, 'Приветсвтую тебя!!')
+        z = bot.send_message(message.chat.id, 'Давай что-нибудь посчитаем 😏 ')
+        bot.register_next_step_handler(z, Calc_bot)
 
-    else:
-        message.text.lower() == 'файл'
-        data = open('user_message.txt', encoding='utf-8')
+    elif message.text.lower() == 'file':
+        data = open('Logs.txt', encoding='utf-8')
         bot.send_document(message.chat.id, data)
         data.close()
 
 
 bot.infinity_polling()
-
-
