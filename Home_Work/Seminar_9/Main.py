@@ -9,7 +9,6 @@ import telebot
 import time
 from random import randint
 from operator import truediv, mul, add, sub
-import Game
 
 
 bot = telebot.TeleBot("5932647150:AAGU1GllNxW4lPWnct9ynbxCEg3FWlckc7c", parse_mode=None)
@@ -22,31 +21,35 @@ itembtn4 = types.KeyboardButton('Cats')
 itembtn5 = types.KeyboardButton('Юмор')
 itembtn6 = types.KeyboardButton('Калькулятор')
 itembtn7 = types.KeyboardButton('file')
-markup.add(itembtn1, itembtn2, itembtn3, itembtn4, itembtn5, itembtn6, itembtn7)
+markup.add(itembtn1, itembtn2, itembtn3, itembtn4, itembtn6, itembtn7)
 
 digit = randint(1, 10)
 count = 0
 
+def game_unknown_number(message):
+    global count
+    global digit
+    if count > 0:
+        bot.send_message(message.chat.id, f'Введите число {digit}')
+        bot.message_handler(content_types=["text"])
+        if not message.text.isdigit():
+            bot.send_message(message.chat.id, f'Введите число {digit}')
+        elif int(message.text) == digit:
+            bot.send_message(message.chat.id, f'Ура! Ты угадал число! Это была цифра: {digit}')
+        else:
+            count -= 1
+            m = bot.send_message(message.chat.id, f'Неверно, осталось попыток: {count}')
+            bot.register_next_step_handler(m, game_unknown_number)
 
 
+def Calculate(message):
+    # на посторах нашел eval, очень интересная функция и она РАБОТАЕТ))))
+    if '+' in message.text or '-' in message.text or '/' in message.text or '*' in message.text:
+        calculate = str(eval(str(message.text)))
+        bot.send_message(message.chat.id, f'{calculate}')
+    else:
+        bot.send_message(message.chat.id, 'Не в моих силах такое вычислить')
 
-
-def Calc_bot(message):
-    operators = {
-        '+': addition,
-        '-': subtraction,
-        '*': multiplication,
-        '/': division
-    }
-    if message.isdigit():
-        return float(message)
-    for i in operators.keys():
-
-        left, operator, right = s.partition(i)
-        if operator in operators:
-            return operators[operator](Calc_bot(left), Calc_bot(right))
-    calc = input(f'Введите математическое выражение: \n')
-    print(f'Результат: {str(Calc_bot(calc))}')
 
 
 @bot.message_handler(commands=['start', 'help', 'hello'])
@@ -73,7 +76,7 @@ def Logs_programm(message, content_types=None, receive=None):
                                           '[Погода] ==> Погода в городе\n'
                                           '[Cats] ==> Веселые котики\n'
                                           '[Geme] ==> Игра угадай число\n'
-                                          '[Юмор] ==> Веселые анекдоты\n'
+                                          # '[Юмор] ==> Веселые анекдоты\n'
                                           '[Калькулятор] ==> No comments  😏)\n')
 
     elif message.text == 'Game':
@@ -95,7 +98,7 @@ def Logs_programm(message, content_types=None, receive=None):
 
     elif message.text == 'Калькулятор':
         z = bot.send_message(message.chat.id, 'Давай что-нибудь посчитаем 😏 ')
-        bot.register_next_step_handler(z, Calc_bot)
+        bot.register_next_step_handler(z, Calculate)
 
     elif message.text.lower() == 'file':
         data = open('Logs.txt', encoding='utf-8')

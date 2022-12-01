@@ -1,10 +1,3 @@
-from random import randint
-from Main import bot
-import Main
-
-digit = randint(1, 10)
-count = 5
-
 
 def game_unknown_number(message):
     global count
