@@ -17,20 +17,50 @@ for i in range(1, 16):
 houses_area = []
 houses_area = [randint(100, 300) for i in range(len(houses))]
 
-
 # Цена домов ранддомно от 50 до 100 м.кв
 houses_price = []
-houses_price = [randint(3000000, 20000000) for i in range(len(houses))]
-
+houses_price = [randint(3_000_000, 20_000_000) for i in range(len(houses))]
 
 # Цена за один м.кв
 prices_one_meter = []
 for i in range(len(houses)):
-    prices_one_meter.append(round(houses_price[i]/houses_area[i]), 2)
-
+    prices_one_meter.append(round(houses_price[i] / houses_area[i]))
 
 # Лимит стоимости квадратного метра
-limit_price = 50000
-required_price_line = [limit_price for i in range(len(houses))]
+limit_price = ([50_000] * len(houses) + [50_000])  # + [50_000] - линия на графике удлиняется, для визуализации
+
+# Цена ниже установленной, в данном случае 50_000 рублей (prices_one_meter)
+
+low_prise = []
+low_prise = list(filter(lambda x: x < 50_000, prices_one_meter))
+
+plt.bar(houses, prices_one_meter)
+plt.plot(limit_price, 'red')
+plt.title('Стоимость домов за м.кв.')
+plt.xlabel('Нумереция домов')
+plt.ylabel('Стоимость Домов')
+plt.grid(False)  # Сетка на график
+plt.legend(['Лимит стоимости "50_000 Руб"', 'Цена за 1 м.кв'], loc=2)
 
 
+print(f'Полощадь квартир: {houses_area}')
+print(f'Стоимость квартир: {houses_price}')
+print(f'Стоимость одного м.кв: {prices_one_meter}')
+print('=====================================================')
+print('Дома, где стоимость м.кв меньше 50.000 рублей: ')
+print('=====================================================')
+for i in range(len(low_prise)):
+    print(f'Дом с площадью {houses_area[i]}, стоимость м.кв составляет:  {low_prise[i]}')
+
+plt.show()
+
+
+# =====================================================
+# Дома, где стоимость м.кв меньше 50.000 рублей:
+# =====================================================
+# Дом с площадью 262, стоимость м.кв составляет:  18711
+# Дом с площадью 188, стоимость м.кв составляет:  16207
+# Дом с площадью 239, стоимость м.кв составляет:  27018
+# Дом с площадью 241, стоимость м.кв составляет:  36519
+# Дом с площадью 131, стоимость м.кв составляет:  17739
+# Дом с площадью 113, стоимость м.кв составляет:  26283
